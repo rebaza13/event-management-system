@@ -68,7 +68,7 @@
     <!-- Right Side: Beautiful Image / Abstract Art -->
     <div class="hidden lg:flex lg:flex-1 relative isolate overflow-hidden bg-orange-300 justify-center items-center">
       <!-- Generated Gradient Background Image -->
-      <!-- <img src="/images/login-illustration.png" alt="Login Graphic" class="w-[80%] max-w-lg h-auto object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-700"> -->
+      <img src="../../public/images/login.png" alt="Login Graphic" class="w-[80%] max-w-lg h-auto object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-700">
       <!-- Decorative text overlay over the image -->
    
     </div>
