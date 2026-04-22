@@ -12,5 +12,7 @@ if (!authStore.isLoggedIn()) {
   navigateTo('/auth/login')
 }
 
-definePageMeta({ layout: 'admin', middleware: ['auth', 'admin'] })
+definePageMeta({ layout: 'default', middleware: ['auth', 'admin'] },
+
+)
 </script>

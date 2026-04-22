@@ -50,11 +50,12 @@
           </div>
 
           <!-- Submit Button -->
-          <button 
+          <button  
             type="submit" 
             class="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl  text-sm font-bold text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-orange-300 focus:ring-orange-600"
           >
-            Sign In
+            <span v-if="authStore.isLoading">Loading...</span>
+            <span v-else>Sign In</span>
           </button>
         </form>
 
@@ -86,22 +87,20 @@ const password = ref('')
 const router = useRouter()
 const authStore = useAuthStore()
 
-// We want to skip any wrapper layout on the login page specifically
 definePageMeta({
-  layout: false 
+  layout: 'guest'
 })
 
 function handleLogin() {
-  // Simple fake login logic
-  if (email.value && password.value) {
+  authStore.isLoading = true
+  setTimeout(() => {
     authStore.setUser({
+      id: '1',
       email: email.value,
-      role: 'admin',
-      name: 'Event Manager'
+      full_name: 'System Admin'
     })
-    
-    // Once logged in, redirect securely back to the app home
+    authStore.isLoading = false
     router.push('/')
-  }
+  }, 1500)  
 }
 </script>

@@ -1,26 +1,27 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
+import type { User } from '~/models'
 
 export const useAuthStore = defineStore('auth', () => {
-  const user = ref<any | null>(null)
+  const user = ref<User | null>(null)
+  const isLoading = ref<boolean>(false)
 
-  const isAdmin = computed(() => user.value?.role === 'admin')
-
-  function setUser(newUser: any) {
+  function setUser(newUser: User) {
     user.value = newUser
   }
-  const isLoggedIn=()=>{
+  const isLoggedIn = () => {
     return !!user.value
   }
-  const logout=()=>{
+  const logout = () => {
     user.value = null
-  } 
+  }
 
   return {
     user,
-    isAdmin,
+    isLoading,
     setUser,
     isLoggedIn,
-    logout
+    logout,
+
   }
 })
