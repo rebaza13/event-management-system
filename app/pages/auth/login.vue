@@ -54,7 +54,7 @@
             type="submit" 
             class="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl  text-sm font-bold text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-orange-300 focus:ring-orange-600"
           >
-            <span v-if="authStore.isLoading">Loading...</span>
+            <span v-if="authStore.isLoading">loading</span>
             <span v-else>Sign In</span>
           </button>
         </form>
@@ -67,7 +67,7 @@
     </div>
 
     <!-- Right Side: Beautiful Image / Abstract Art -->
-    <div class="hidden lg:flex lg:flex-1 relative isolate overflow-hidden bg-orange-300 justify-center items-center">
+    <div class="hidden lg:flex lg:flex-1 relative isolate overflow-hidden rounded-md  m-10 ml-0 hover:m-0 transition-all duration-200 bg-orange-300 justify-center items-center">
       <!-- Generated Gradient Background Image -->
       <img src="../../public/images/login.png" alt="Login Graphic" class="w-[80%] max-w-lg h-auto object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-700">
       <!-- Decorative text overlay over the image -->
