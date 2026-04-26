@@ -93,14 +93,14 @@ definePageMeta({
 
 function handleLogin() {
   authStore.isLoading = true
-  setTimeout(() => {
-    authStore.setUser({
-      id: '1',
-      email: email.value,
-      full_name: 'System Admin'
-    })
-    authStore.isLoading = false
-    router.push('/')
-  }, 1500)  
+  authStore.login(email.value, password.value).then((success) => {
+    if (success) {
+      router.push('/')
+    } else {
+      alert('Invalid email or password')
+    }
+  }).finally(() => {
+    // isLoading is also handled inside authStore, but you can sync here if needed.
+  })
 }
 </script>
