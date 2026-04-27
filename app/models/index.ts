@@ -10,3 +10,19 @@ export interface User {
     [key: string]: any;
   };
 }
+
+export interface Event {
+  id: number;
+  title: string;
+  created_at?: string;
+  description?: string;
+  location?: string;
+  start_at?: string;
+  end_at?: string;
+  status?: string;
+  organizer_id?: string | number;
+  category?: string;
+  capacity?: number;
+}
+
+export interface EventCreate extends Omit<Event, 'id' | 'created_at'> {}

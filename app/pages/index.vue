@@ -107,7 +107,7 @@
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
              
              <!-- Provide Events -->
-             <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:border-emerald-200 hover:shadow-lg hover:shadow-emerald-500/5 transition-all group cursor-pointer">
+             <NuxtLink to="/events/create" class="block bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:border-emerald-200 hover:shadow-lg hover:shadow-emerald-500/5 transition-all group cursor-pointer">
               <div class="flex items-center gap-4 mb-4">
                 <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:bg-emerald-100 transition-all">
                   <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
@@ -115,7 +115,7 @@
                 <h4 class="text-lg font-bold text-slate-800">Provide Event</h4>
               </div>
               <p class="text-slate-500 text-sm font-medium">Create and publish new official events directly to the system calendar.</p>
-             </div>
+             </NuxtLink>
 
              <!-- View & Register -->
              <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:border-sky-200 hover:shadow-lg hover:shadow-sky-500/5 transition-all group cursor-pointer">
