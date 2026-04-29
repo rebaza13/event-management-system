@@ -1,32 +1,21 @@
-import { createBrowserClient, createServerClient } from '@supabase/ssr'
-import { useRuntimeConfig, useRequestEvent } from '#app'
-import { parseCookies, setCookie } from 'h3'
+import type { Database } from '~/types/database.types'
 
-export function useSupabase() {
-  const config = useRuntimeConfig()
-  const url = config.public.supabaseUrl as string
-  const key = config.public.supabaseKey as string
+export const useSupabase = () => {
+  // 1. Initialize the client with strict typing
+  const client = useSupabaseClient<Database>()
 
-  // Browser Client
-  if (import.meta.client) {
-    return createBrowserClient(url, key)
+  // 2. Get the current user (reactive)
+  const user = useSupabaseUser()
+
+  // 3. Helper for common tables to get strict autocomplete
+  const table = <T extends keyof Database['public']['Tables']>(name: T) => {
+    return client.from(name)
   }
 
-  // Server Client
-  const event = useRequestEvent()
-  return createServerClient(url, key, {
-    cookies: {
-      getAll() {
-        if (!event) return []
-        const storedCookies = parseCookies(event)
-        return Object.entries(storedCookies).map(([name, value]) => ({ name, value }))
-      },
-      setAll(cookiesToSet) {
-        if (!event) return
-        cookiesToSet.forEach(({ name, value, options }) => {
-          setCookie(event, name, value, options)
-        })
-      }
-    }
-  })
+  return {
+    client,
+    user,
+    table,
+    auth: client.auth
+  }
 }

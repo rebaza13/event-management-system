@@ -152,16 +152,18 @@ import { useAuthStore } from '~/stores/auth'
 
 const authStore = useAuthStore()
 
-// Redirect to login if user is not logged in
-if (!authStore.isLoggedIn()) {
-  navigateTo('/auth/login')
-}
 
 // Ensure the page doesn't use the default layout so we can render our custom dashboard UI fully
 definePageMeta({ layout: false, middleware: ['auth'] })
 
+const { auth } = useSupabase() // Using the composable we made earlier
+
 const logout = async () => {
-  await authStore.logout()
-  navigateTo('/auth/login')
+  const { error } = await auth.signOut()
+  if (!error) {
+    // This will trigger the 'user' composable to become null
+    // and the middleware will naturally redirect on the next move
+    navigateTo('/auth/login')
+  }
 }
 </script>
