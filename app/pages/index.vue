@@ -118,7 +118,7 @@
              </NuxtLink>
 
              <!-- View & Register -->
-             <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:border-sky-200 hover:shadow-lg hover:shadow-sky-500/5 transition-all group cursor-pointer">
+             <NuxtLink to="/events" class="block bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:border-sky-200 hover:shadow-lg hover:shadow-sky-500/5 transition-all group cursor-pointer">
               <div class="flex items-center gap-4 mb-4">
                 <div class="w-12 h-12 bg-sky-50 text-sky-600 rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:bg-sky-100 transition-all">
                   <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
@@ -126,7 +126,7 @@
                 <h4 class="text-lg font-bold text-slate-800">View Events</h4>
               </div>
               <p class="text-slate-500 text-sm font-medium">Browse active events, process registrations, and cancel upcoming dates.</p>
-             </div>
+             </NuxtLink>
 
              <!-- Analytics & Reporting -->
              <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:border-amber-200 hover:shadow-lg hover:shadow-amber-500/5 transition-all group cursor-pointer">
