@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import type { User } from '~/models'
 
 export const useAuthStore = defineStore('auth', () => {
@@ -8,6 +8,24 @@ export const useAuthStore = defineStore('auth', () => {
 
   // Initialize Supabase Client
   const supabase = useSupabase()
+
+  // 🪄 THE FIX: Automatically sync Pinia state with Supabase's built-in session state.
+  // This runs immediately on page load, automatically fetching the user from cookies!
+  watch(supabase.user, (supabaseUser) => {
+    if (supabaseUser) {
+      user.value = {
+        id: supabaseUser.id,
+        email: supabaseUser.email!,
+        phone: supabaseUser.phone,
+        created_at: supabaseUser.created_at,
+        updated_at: supabaseUser.updated_at,
+        raw_user_meta_data: supabaseUser.user_metadata,
+        full_name: supabaseUser.user_metadata?.full_name
+      }
+    } else {
+      user.value = null
+    }
+  }, { immediate: true })
 
   function setUser(newUser: User | null) {
     user.value = newUser

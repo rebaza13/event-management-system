@@ -20,3 +20,7 @@ export interface User {
 export type Event = Database['public']['Tables']['events']['Row']
 export type EventCreate = Database['public']['Tables']['events']['Insert']
 export type EventUpdate = Database['public']['Tables']['events']['Update']
+
+export type Profile = Database['public']['Tables']['profiles']['Row']
+export type ProfileCreate = Database['public']['Tables']['profiles']['Insert']
+export type ProfileUpdate = Database['public']['Tables']['profiles']['Update']

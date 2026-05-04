@@ -137,6 +137,24 @@ export const useEventStore = defineStore('event', () => {
     }
   }
 
+  const deleteEvent = async (eventId: number) => {
+    isLoading.value = true
+    try {
+      const { error } = await table('events')
+        .delete()
+        .match({ id: eventId })
+      if (error) throw error
+      
+      // Update local state
+      events.value = events.value.filter(e => e.id !== eventId)
+    } catch (err) {
+      console.error('Error deleting event:', err)
+      throw err
+    } finally {
+      isLoading.value = false
+    }
+  }
+
   return {
     isLoading,
     events,
@@ -144,6 +162,7 @@ export const useEventStore = defineStore('event', () => {
     fetchEvents,
     registerForEvent,
     cancelRegistration,
-    cancelEvent
+    cancelEvent,
+    deleteEvent
   }
 })
