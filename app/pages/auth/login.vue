@@ -1,77 +1,89 @@
 <template>
-  <div class="min-h-screen min-w-full flex">
+  <div class="min-h-screen min-w-full flex bg-white font-sans text-gray-900">
     <!-- Left Side: Form -->
-    <div class="flex-1 flex flex-col justify-center items-center bg-white px-6 sm:px-12 lg:px-20 text-slate-200">
-      <div class="w-full max-w-md">
-        <!-- Logo / Brand Identifier -->
-        <div class="mb-10 text-center lg:text-left">
-         
-          <h1 class="text-3xl font-extrabold tracking-tight text-slate-600 sm:text-4xl">Welcome Back</h1>
-          <p class="mt-2 text-sm text-slate-600">Sign in to your event management dashboard</p>
+    <div class="flex-1 flex flex-col justify-center px-6 sm:px-12 lg:px-20 xl:px-24">
+      <div class="w-full max-w-md mx-auto lg:mx-0">
+        <!-- Logo -->
+        <div class="flex items-center gap-3 mb-10">
+          <div class="w-10 h-10 rounded-lg bg-black flex items-center justify-center shadow-sm">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+          </div>
+          <span class="font-bold text-2xl tracking-tight">My<span class="text-gray-500 font-medium">Dashboard</span></span>
         </div>
 
-        <form @submit.prevent="handleLogin" class="space-y-6">
-          <div class="space-y-4">
-            <!-- Email Input -->
-            <div class="group relative">
-              <label for="email" class="block text-sm font-medium text-slate-600 mb-1">Email address</label>
-              <input 
-                id="email" 
-                v-model="email"
-                type="email" 
-                placeholder="admin@events.com" 
-                class="w-full px-4 py-3 rounded-xl bg-slate-100 border border-slate-300 text-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition-all duration-300 placeholder-slate-400"
-                required
-              />
-            </div>
-            
-            <!-- Password Input -->
-            <div class="group relative">
-              <label for="password" class="block text-sm font-medium text-slate-600 mb-1">Password</label>
-              <input 
-                id="password" 
-                v-model="password"
-                type="password" 
-                placeholder="••••••••" 
-                class="w-full px-4 py-3 rounded-xl bg-slate-100 border border-slate-300 text-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition-all duration-300 placeholder-slate-400"
-                required
-              />
-            </div>
-          </div>
-
-          <div class="flex items-center justify-between">
-            <div class="flex items-center">
-              <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 rounded border-slate-700 bg-slate-900 text-indigo-500 focus:ring-indigo-500 focus:ring-offset-slate-950" />
-              <label for="remember-me" class="ml-2 block text-sm text-slate-600">Remember me</label>
-            </div>
-            <div class="text-sm">
-              <a href="#" class="font-medium text-indigo-400 hover:text-indigo-300 transition-colors">Forgot password?</a>
-            </div>
-          </div>
-
-          <!-- Submit Button -->
-          <button  
-            type="submit" 
-            class="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl  text-sm font-bold text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-orange-300 focus:ring-orange-600"
-          >
-            <span v-if="authStore.isLoading">loading</span>
-            <span v-else>Sign In</span>
-          </button>
-        </form>
-
-        <p class="mt-8 text-center text-sm text-slate-400">
-          Not a member? 
-          <a href="#" class="font-medium text-indigo-400 hover:text-orange-500 transition-colors">Request access from your admin</a>
+        <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+          Welcome Back
+        </h2>
+        <p class="mt-2 text-sm text-gray-500">
+          Sign in to access your event management dashboard.
         </p>
+
+        <div class="mt-8">
+          <form class="space-y-6" @submit.prevent="handleLogin">
+            <div>
+              <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
+              <div class="mt-1">
+                <input id="email" v-model="email" type="email" autocomplete="email" required class="block w-full appearance-none rounded-lg border border-gray-300 px-4 py-3 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm transition-colors" placeholder="admin@events.com" />
+              </div>
+            </div>
+
+            <div>
+              <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+              <div class="mt-1">
+                <input id="password" v-model="password" type="password" autocomplete="current-password" required class="block w-full appearance-none rounded-lg border border-gray-300 px-4 py-3 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm transition-colors" placeholder="••••••••" />
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <div class="flex items-center">
+                <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-black focus:ring-black" />
+                <label for="remember-me" class="ml-2 block text-sm text-gray-600">Remember me</label>
+              </div>
+
+              <div class="text-sm">
+                <a href="#" class="font-medium text-gray-900 hover:text-gray-600 transition-colors">Forgot password?</a>
+              </div>
+            </div>
+
+            <div>
+              <button type="submit" :disabled="authStore.isLoading" class="flex w-full justify-center items-center gap-2 rounded-lg bg-black px-4 py-3 text-sm font-bold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
+                <svg v-if="authStore.isLoading" class="animate-spin h-5 w-5 text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                <span>{{ authStore.isLoading ? 'Signing in...' : 'Sign In' }}</span>
+              </button>
+            </div>
+          </form>
+
+          <div class="mt-8 border-t border-gray-100 pt-6 text-center">
+             <p class="text-sm text-gray-500">
+              Not a member?
+              <a href="#" class="font-medium text-gray-900 hover:text-gray-600 transition-colors">Request access from your admin</a>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Right Side: Beautiful Image / Abstract Art -->
-    <div class="hidden lg:flex lg:flex-1 relative isolate overflow-hidden rounded-md  m-10 ml-0 hover:m-0 transition-all duration-200 bg-orange-300 justify-center items-center">
-      <!-- Generated Gradient Background Image -->
-      <img src="../../public/images/login.png" alt="Login Graphic" class="w-[80%] max-w-lg h-auto object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-700">
-      <!-- Decorative text overlay over the image -->
-   
+    <!-- Right Side: Dark Dashboard Aesthetic -->
+    <div class="hidden lg:flex lg:flex-1 relative isolate overflow-hidden bg-gray-900 items-center justify-center">
+      <!-- Subtle Grid Pattern Background -->
+      <div class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)]"></div>
+      
+      <!-- Glowing elements behind image -->
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gray-600 rounded-full mix-blend-screen filter blur-[120px] opacity-20"></div>
+
+      <div class="relative z-10 w-full max-w-lg px-8 flex flex-col items-center">
+        <!-- Floating Image Container -->
+        <div class="p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 shadow-2xl transition-transform duration-700 hover:scale-105 group">
+          <img src="../../public/images/login.png" alt="Dashboard Illustration" class="w-full h-auto object-contain drop-shadow-2xl opacity-90 group-hover:opacity-100 transition-opacity" />
+        </div>
+        
+        <div class="mt-10 text-center space-y-3">
+          <h3 class="text-white text-2xl font-bold tracking-tight">Streamlined Management</h3>
+          <p class="text-gray-400 text-sm max-w-md mx-auto leading-relaxed">
+            Organize, monitor, and scale your events with our comprehensive platform designed for efficiency.
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -100,7 +112,7 @@ function handleLogin() {
       alert('Invalid email or password')
     }
   }).finally(() => {
-    // isLoading is also handled inside authStore, but you can sync here if needed.
+    authStore.isLoading = false
   })
 }
 </script>
