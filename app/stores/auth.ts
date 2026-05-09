@@ -11,22 +11,24 @@ export const useAuthStore = defineStore('auth', () => {
 
   // 🪄 THE FIX: Automatically sync Pinia state with Supabase's built-in session state.
   // This runs immediately on page load, automatically fetching the user from cookies!
-  watch(supabase.user, (supabaseUser) => {
-    if (supabaseUser) {
-      user.value = {
-        id: supabaseUser.id,
-        email: supabaseUser.email!,
-        phone: supabaseUser.phone,
-        created_at: supabaseUser.created_at,
-        updated_at: supabaseUser.updated_at,
-        raw_user_meta_data: supabaseUser.user_metadata,
-        full_name: supabaseUser.user_metadata?.full_name
-      }
-    } else {
-      user.value = null
-    }
-  }, { immediate: true })
 
+  const fetchProfile = async () => {
+    if (!user.value) return
+    
+    const { data, error } = await supabase.table('profiles')
+      .select('*')
+      .eq('id', user.value.id)
+      .single()
+      
+    if (error) {
+      console.error('Error fetching user profile:', error.message)
+      return
+    }
+    
+    if (data && user.value) {
+      user.value.role = data.role as string
+    }
+  }
   function setUser(newUser: User | null) {
     user.value = newUser
   }
@@ -93,6 +95,24 @@ export const useAuthStore = defineStore('auth', () => {
       isLoading.value = false
     }
   }
+
+    watch(supabase.user, (supabaseUser) => {
+    if (supabaseUser) {
+      console.log(supabaseUser);
+      user.value = {
+        id: supabaseUser.id,
+        email: supabaseUser.email!,
+        phone: supabaseUser.phone,
+        created_at: supabaseUser.created_at,
+        updated_at: supabaseUser.updated_at,
+        raw_user_meta_data: supabaseUser.user_metadata,
+        full_name: supabaseUser.user_metadata?.full_name
+      }
+      fetchProfile()
+    } else {
+      user.value = null
+    }
+  }, { immediate: true })
 
   return {
     user,
