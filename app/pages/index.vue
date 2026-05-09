@@ -9,12 +9,12 @@
 import { computed } from 'vue'
 import { useAuthStore } from '~/stores/auth'
 
+const { user } = storeToRefs(useAuthStore())
 definePageMeta({ layout: false, middleware: ['auth'] })
 
-const authStore = useAuthStore()
 
 const isAdminOrStaff = computed(() => {
-  const role = authStore.user?.raw_user_meta_data?.role
-  return role === 'admin' || role === 'staff'
+ 
+  return user.value?.role === 'admin' || user.value?.role === 'staff'
 })
 </script>

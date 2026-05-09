@@ -13,12 +13,12 @@ export const useAuthStore = defineStore('auth', () => {
   // This runs immediately on page load, automatically fetching the user from cookies!
 
   const fetchProfile = async () => {
-    if (!user.value) return
+   const userId = (await supabase.auth.getUser()).data.user?.id
+    if (!userId) return
     
     const { data, error } = await supabase.table('profiles')
       .select('*')
-      .eq('id', user.value.id)
-      .single()
+      .eq('id', userId)
       
     if (error) {
       console.error('Error fetching user profile:', error.message)
@@ -26,7 +26,7 @@ export const useAuthStore = defineStore('auth', () => {
     }
     
     if (data && user.value) {
-      user.value.role = data.role as string
+      user.value.role = data[0]?.role as string
     }
   }
   function setUser(newUser: User | null) {
@@ -98,7 +98,7 @@ export const useAuthStore = defineStore('auth', () => {
 
     watch(supabase.user, (supabaseUser) => {
     if (supabaseUser) {
-      console.log(supabaseUser);
+    
       user.value = {
         id: supabaseUser.id,
         email: supabaseUser.email!,
