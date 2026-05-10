@@ -37,6 +37,7 @@ export const useAuthStore = defineStore('auth', () => {
   }
   function setUser(newUser: User | null) {
     user.value = newUser
+    console.log(user.value,'userr')
   }
 
   const isLoggedIn = () => {
@@ -103,17 +104,21 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-    watch(supabase.user, (supabaseUser) => {
+    watch(supabase.user, async (supabaseUser) => {
     if (supabaseUser) {
-    
+      // Sometimes the reactive user object might have different property mappings depending on the session state
+      // We'll prioritize the full user object from Supabase Auth for consistency
+      const { data } = await supabase.auth.getUser()
+      const actualUser = data.user || supabaseUser
+
       user.value = {
-        id: supabaseUser.id,
-        email: supabaseUser.email!,
-        phone: supabaseUser.phone,
-        created_at: supabaseUser.created_at,
-        updated_at: supabaseUser.updated_at,
-        raw_user_meta_data: supabaseUser.user_metadata,
-        full_name: supabaseUser.user_metadata?.full_name
+        id: actualUser.id || (actualUser as any).sub,
+        email: actualUser.email!,
+        phone: actualUser.phone,
+        created_at: actualUser.created_at,
+        updated_at: actualUser.updated_at,
+        raw_user_meta_data: actualUser.user_metadata,
+        full_name: actualUser.user_metadata?.full_name
       }
       fetchProfile()
     } else {

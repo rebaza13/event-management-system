@@ -127,21 +127,37 @@
                 </div>
 
                 <!-- Action Button -->
+                <div v-if="studentStore.isRegistered(event.id)">
+                  <div class="flex flex-col gap-2">
+                    <button 
+                      @click="openCancelModal(event)"
+                      :class="[
+                        studentStore.getRegistration(event.id)?.staus === 'approved' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' :
+                        studentStore.getRegistration(event.id)?.staus === 'rejected' ? 'bg-rose-50 text-rose-700 border-rose-100' :
+                        'bg-amber-50 text-amber-700 border-amber-100'
+                      ]"
+                      class="w-full py-3 border rounded-xl font-bold transition-all flex items-center justify-center gap-2"
+                    >
+                      <svg v-if="studentStore.getRegistration(event.id)?.staus === 'approved'" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                      <svg v-else-if="studentStore.getRegistration(event.id)?.staus === 'rejected'" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                      <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                      
+                      {{ 
+                        studentStore.getRegistration(event.id)?.staus === 'approved' ? 'Approved' : 
+                        studentStore.getRegistration(event.id)?.staus === 'rejected' ? 'Rejected' : 
+                        'Pending Approval' 
+                      }}
+                    </button>
+                    <p class="text-[10px] text-center text-slate-400 font-medium">Click to manage registration</p>
+                  </div>
+                </div>
                 <button 
-                  v-if="!studentStore.isRegistered(event.id)"
+                  v-else
                   @click="openConfirmModal(event)"
                   class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold transition-all shadow-lg shadow-indigo-100 flex items-center justify-center gap-2"
                 >
                   Join Event
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
-                </button>
-                <button 
-                  v-else
-                  @click="openCancelModal(event)"
-                  class="w-full py-3 bg-slate-100 text-slate-700 hover:bg-rose-50 hover:text-rose-700 rounded-xl font-bold transition-all flex items-center justify-center gap-2"
-                >
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                  Registered
                 </button>
               </div>
             </div>

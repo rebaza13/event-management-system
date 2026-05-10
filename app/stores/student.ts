@@ -16,7 +16,7 @@ export const useStudentStore = defineStore('student', () => {
     isLoading.value = true
     try {
       const { data, error } = await table('event_registrations')
-        .select('event_id')
+        .select('*')
         .eq('user_id', authStore.user.id)
       
       if (error) throw error
@@ -30,6 +30,10 @@ export const useStudentStore = defineStore('student', () => {
 
   const isRegistered = (eventId: number) => {
     return myRegistrations.value.some(r => r.event_id === eventId)
+  }
+
+  const getRegistration = (eventId: number) => {
+    return myRegistrations.value.find(r => r.event_id === eventId)
   }
 
   const register = async (eventId: number) => {
@@ -65,6 +69,7 @@ export const useStudentStore = defineStore('student', () => {
     isLoading,
     fetchMyRegistrations,
     isRegistered,
+    getRegistration,
     register,
     unregister
   }

@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import type { EventCreate, Event } from '~/models'
+import { useAuthStore } from './auth'
 
 export const useEventStore = defineStore('event', () => {
   const isLoading = ref<boolean>(false)
@@ -76,27 +77,33 @@ export const useEventStore = defineStore('event', () => {
   }
 
   const registerForEvent = async (eventId: number) => {
-    if (!user.value) return
+    const authStore = useAuthStore()
+    if (!authStore.user?.id) return
+
     try {
+      // @ts-ignore - Using 'staus' as per user's database schema typo
       const { error } = await table('event_registrations').insert({
         event_id: eventId,
-        user_id: user.value.id
+        user_id: authStore.user.id,
+        staus: 'pending'
       })
       
       // If profile is missing (foreign key error on profiles table), create it and retry
       if (error && error.code === '23503' && error.message.includes('profiles')) {
         const { error: profileError } = await table('profiles').insert({
-          id: user.value.id,
-          full_name: user.value.user_metadata?.full_name || user.value.email?.split('@')[0] || 'User',
+          id: authStore.user.id,
+          full_name: authStore.user.full_name || authStore.user.email?.split('@')[0] || 'User',
           role: 'user'
         })
         
         if (profileError) throw profileError
         
         // Retry registration
+        // @ts-ignore
         const { error: retryError } = await table('event_registrations').insert({
           event_id: eventId,
-          user_id: user.value.id
+          user_id: authStore.user.id,
+          staus: 'pending'
         })
         if (retryError) throw retryError
       } else if (error) {
@@ -110,12 +117,28 @@ export const useEventStore = defineStore('event', () => {
     }
   }
 
+  const updateRegistrationStatus = async (registrationId: number, status: 'approved' | 'rejected' | 'pending') => {
+    try {
+      // @ts-ignore
+      const { error } = await table('event_registrations')
+        .update({ staus: status })
+        .match({ id: registrationId })
+      
+      if (error) throw error
+      await fetchEvents()
+    } catch (err) {
+      console.error('Error updating registration status:', err)
+      throw err
+    }
+  }
+
   const cancelRegistration = async (eventId: number) => {
-    if (!user.value) return
+    const authStore = useAuthStore()
+    if (!authStore.user?.id) return
     try {
       const { error } = await table('event_registrations')
         .delete()
-        .match({ event_id: eventId, user_id: user.value.id })
+        .match({ event_id: eventId, user_id: authStore.user.id })
       if (error) throw error
       await fetchEvents()
     } catch (err) {
@@ -161,6 +184,7 @@ export const useEventStore = defineStore('event', () => {
     createEvent,
     fetchEvents,
     registerForEvent,
+    updateRegistrationStatus,
     cancelRegistration,
     cancelEvent,
     deleteEvent
