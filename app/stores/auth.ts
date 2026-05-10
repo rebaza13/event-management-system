@@ -5,6 +5,7 @@ import type { User } from '~/models'
 export const useAuthStore = defineStore('auth', () => {
   const user = ref<User | null>(null)
   const isLoading = ref<boolean>(false)
+  const isProfileLoaded = ref<boolean>(false)
 
   // Initialize Supabase Client
   const supabase = useSupabase()
@@ -13,8 +14,11 @@ export const useAuthStore = defineStore('auth', () => {
   // This runs immediately on page load, automatically fetching the user from cookies!
 
   const fetchProfile = async () => {
-   const userId = (await supabase.auth.getUser()).data.user?.id
-    if (!userId) return
+    const userId = (await supabase.auth.getUser()).data.user?.id
+    if (!userId) {
+      isProfileLoaded.value = true
+      return
+    }
     
     const { data, error } = await supabase.table('profiles')
       .select('*')
@@ -22,12 +26,14 @@ export const useAuthStore = defineStore('auth', () => {
       
     if (error) {
       console.error('Error fetching user profile:', error.message)
+      isProfileLoaded.value = true
       return
     }
     
     if (data && user.value) {
       user.value.role = data[0]?.role as string
     }
+    isProfileLoaded.value = true
   }
   function setUser(newUser: User | null) {
     user.value = newUser
@@ -71,6 +77,7 @@ export const useAuthStore = defineStore('auth', () => {
   const logout = async () => {
     await supabase.auth.signOut()
     user.value = null
+    isProfileLoaded.value = false
   }
 
   const updateProfile = async (fullName: string) => {
@@ -111,12 +118,14 @@ export const useAuthStore = defineStore('auth', () => {
       fetchProfile()
     } else {
       user.value = null
+      isProfileLoaded.value = true // Even if no user, loading is "done"
     }
   }, { immediate: true })
 
   return {
     user,
     isLoading,
+    isProfileLoaded,
     setUser,
     isLoggedIn,
     login,
