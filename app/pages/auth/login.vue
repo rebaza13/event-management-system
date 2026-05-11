@@ -63,25 +63,35 @@
       </div>
     </div>
 
-    <!-- Right Side: Dark Dashboard Aesthetic -->
-    <div class="hidden lg:flex lg:flex-1 relative isolate overflow-hidden bg-gray-900 items-center justify-center">
-      <!-- Subtle Grid Pattern Background -->
-      <div class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)]"></div>
+    <!-- Right Side: Dark Pattern Aesthetic -->
+    <div class="hidden lg:flex lg:flex-1 relative isolate overflow-hidden bg-black items-center justify-center">
+      <!-- Dark gradient wallpaper base -->
+      <div class="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-800"></div>
       
-      <!-- Glowing elements behind image -->
-      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gray-600 rounded-full mix-blend-screen filter blur-[120px] opacity-20"></div>
+      <!-- Subtle dot pattern overlay -->
+      <div class="absolute inset-0 bg-[radial-gradient(#ffffff15_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_70%_70%_at_50%_50%,#000_60%,transparent_100%)]"></div>
+      
+      <!-- Glowing atmospheric elements -->
+      <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-gray-600 rounded-full mix-blend-screen filter blur-[150px] opacity-10 translate-x-1/3 -translate-y-1/3"></div>
+      <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gray-800 rounded-full mix-blend-screen filter blur-[120px] opacity-20 -translate-x-1/3 translate-y-1/3"></div>
 
-      <div class="relative z-10 w-full max-w-lg px-8 flex flex-col items-center">
-        <!-- Floating Image Container -->
-        <div class="p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 shadow-2xl transition-transform duration-700 hover:scale-105 group">
-          <img src="../../public/images/login.png" alt="Dashboard Illustration" class="w-full h-auto object-contain drop-shadow-2xl opacity-90 group-hover:opacity-100 transition-opacity" />
+      <!-- Content -->
+      <div class="relative z-10 w-full max-w-lg px-8 flex flex-col items-start text-left">
+        <div class="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-8 backdrop-blur-md shadow-2xl">
+          <svg class="w-8 h-8 text-white opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
         </div>
+        <h3 class="text-white text-4xl font-extrabold tracking-tight mb-4">Elevate your<br/>event experience.</h3>
+        <p class="text-gray-400 text-lg leading-relaxed mb-10">
+          A seamless, simple, and powerful way to manage everything from registrations to schedules in one sleek interface.
+        </p>
         
-        <div class="mt-10 text-center space-y-3">
-          <h3 class="text-white text-2xl font-bold tracking-tight">Streamlined Management</h3>
-          <p class="text-gray-400 text-sm max-w-md mx-auto leading-relaxed">
-            Organize, monitor, and scale your events with our comprehensive platform designed for efficiency.
-          </p>
+        <div class="flex gap-4 items-center">
+          <div class="flex -space-x-3">
+             <div class="w-10 h-10 rounded-full border-2 border-black bg-gray-700"></div>
+             <div class="w-10 h-10 rounded-full border-2 border-black bg-gray-600"></div>
+             <div class="w-10 h-10 rounded-full border-2 border-black bg-gray-500"></div>
+          </div>
+          <p class="text-sm text-gray-500 font-medium">Join thousands of users.</p>
         </div>
       </div>
     </div>

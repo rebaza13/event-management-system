@@ -2,8 +2,8 @@
   <div class="min-h-screen bg-slate-50">
     <div v-if="!isProfileLoaded" class="flex flex-col items-center justify-center min-h-screen p-4">
       <div class="relative w-16 h-16">
-        <div class="absolute top-0 left-0 w-full h-full border-4 border-indigo-200 rounded-full"></div>
-        <div class="absolute top-0 left-0 w-full h-full border-4 border-indigo-600 rounded-full border-t-transparent animate-spin"></div>
+        <div class="absolute top-0 left-0 w-full h-full border-4 border-gray-200 rounded-full"></div>
+        <div class="absolute top-0 left-0 w-full h-full border-4 border-gray-900 rounded-full border-t-transparent animate-spin"></div>
       </div>
       <p class="mt-4 text-slate-500 font-medium animate-pulse">Initializing dashboard...</p>
     </div>

@@ -3,20 +3,20 @@
     <!-- Sidebar -->
     <aside class="w-64 bg-white border-r border-slate-200 flex-col hidden md:flex z-10 transition-all duration-300">
       <div class="p-6 border-b border-slate-100 flex items-center gap-3">
-        <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center shadow-sm">
+        <div class="w-8 h-8 rounded-lg bg-gray-900 flex items-center justify-center shadow-sm">
           <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18 18.246 18.477 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
         </div>
-        <span class="font-bold text-xl tracking-tight text-slate-800">Student<span class="text-indigo-600">Hub</span></span>
+        <span class="font-bold text-xl tracking-tight text-slate-800">Student<span class="text-gray-900">Hub</span></span>
       </div>
       
       <nav class="flex-1 px-4 py-6 space-y-1">
         <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3 px-2">Main Menu</div>
-        <button @click="activeTab = 'events'" :class="[activeTab === 'events' ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-50']" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition-all group">
-          <svg :class="[activeTab === 'events' ? 'text-indigo-600' : 'text-slate-400 group-hover:text-slate-600']" class="w-5 h-5 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+        <button @click="activeTab = 'events'" :class="[activeTab === 'events' ? 'bg-gray-100 text-black' : 'text-slate-600 hover:bg-slate-50']" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition-all group">
+          <svg :class="[activeTab === 'events' ? 'text-gray-900' : 'text-slate-400 group-hover:text-slate-600']" class="w-5 h-5 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
           Explore Events
         </button>
-        <button @click="activeTab = 'my-events'" :class="[activeTab === 'my-events' ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-50']" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition-all group">
-          <svg :class="[activeTab === 'my-events' ? 'text-indigo-600' : 'text-slate-400 group-hover:text-slate-600']" class="w-5 h-5 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+        <button @click="activeTab = 'my-events'" :class="[activeTab === 'my-events' ? 'bg-gray-100 text-black' : 'text-slate-600 hover:bg-slate-50']" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition-all group">
+          <svg :class="[activeTab === 'my-events' ? 'text-gray-900' : 'text-slate-400 group-hover:text-slate-600']" class="w-5 h-5 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
           My Registrations
         </button>
       </nav>
@@ -35,7 +35,7 @@
       <header class="bg-white border-b border-slate-200 px-6 sm:px-8 py-4 flex justify-between items-center z-10 sticky top-0">
         <div class="flex items-center gap-4">
           <!-- Mobile Sidebar Toggle (Simplified) -->
-          <div class="md:hidden w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center">
+          <div class="md:hidden w-8 h-8 rounded-lg bg-gray-900 flex items-center justify-center">
             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
           </div>
           <div>
@@ -48,11 +48,44 @@
           </div>
         </div>
         <div class="flex items-center space-x-4">
+          <!-- Notification Bell -->
+          <div class="relative">
+            <button @click="showNotifications = !showNotifications" class="relative p-2 text-slate-400 hover:text-slate-600 bg-slate-50 hover:bg-slate-100 rounded-full transition-colors focus:outline-none">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+              <span v-if="notifications.length > 0" class="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-rose-500 rounded-full border-2 border-white"></span>
+            </button>
+            
+            <!-- Dropdown -->
+            <div v-if="showNotifications" class="absolute right-0 mt-2 w-80 bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden z-50 transform origin-top-right transition-all">
+              <div class="p-4 border-b border-slate-100 bg-slate-50/80 flex justify-between items-center backdrop-blur-sm">
+                <h3 class="font-bold text-slate-900">Notifications</h3>
+                <button v-if="notifications.length > 0" @click="clearNotifications" class="text-xs font-semibold text-gray-900 hover:text-black transition-colors">Clear All</button>
+              </div>
+              <div class="max-h-[28rem] overflow-y-auto scrollbar-hide">
+                <div v-if="notifications.length === 0" class="p-8 text-center flex flex-col items-center">
+                  <div class="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center mb-3">
+                    <svg class="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path></svg>
+                  </div>
+                  <p class="text-slate-500 text-sm font-medium">You're all caught up!</p>
+                </div>
+                <div v-else class="divide-y divide-slate-50">
+                  <div v-for="notif in notifications" :key="notif.id" class="p-4 hover:bg-slate-50 transition-colors group relative">
+                    <p class="text-sm text-slate-700 leading-relaxed pr-6">{{ notif.message }}</p>
+                    <span class="text-[11px] font-medium text-slate-400 mt-2 block">{{ formatDate(notif.created_at) }}</span>
+                    <button @click="deleteNotification(notif.id)" class="absolute top-4 right-4 text-slate-300 hover:text-rose-500 opacity-0 group-hover:opacity-100 transition-all focus:outline-none">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="text-right hidden sm:block">
             <div class="text-sm font-semibold text-slate-900">{{ authStore.user?.full_name || 'Student' }}</div>
-            <div class="text-xs text-indigo-600 font-medium capitalize">Student Member</div>
+            <div class="text-xs text-gray-900 font-medium capitalize">Student Member</div>
           </div>
-          <NuxtLink to="/profile" class="h-10 w-10 bg-indigo-50 text-indigo-700 rounded-full flex items-center justify-center font-bold border border-indigo-100 hover:bg-indigo-100 transition-colors">
+          <NuxtLink to="/profile" class="h-10 w-10 bg-gray-100 text-black rounded-full flex items-center justify-center font-bold border border-gray-200 hover:bg-gray-200 transition-colors">
             {{ (authStore.user?.full_name || 'S').charAt(0).toUpperCase() }}
           </NuxtLink>
         </div>
@@ -64,7 +97,7 @@
           
           <!-- Loading State -->
           <div v-if="eventStore.isLoading || studentStore.isLoading" class="flex flex-col items-center justify-center py-20">
-            <div class="w-12 h-12 border-4 border-indigo-100 border-t-indigo-600 rounded-full animate-spin"></div>
+            <div class="w-12 h-12 border-4 border-gray-200 border-t-gray-900 rounded-full animate-spin"></div>
             <p class="mt-4 text-slate-500 font-medium animate-pulse">Updating events...</p>
           </div>
 
@@ -77,7 +110,7 @@
             <p class="text-slate-500 max-w-sm mx-auto mt-2 leading-relaxed">
               {{ activeTab === 'events' ? 'There are no public events available at the moment. Check back later!' : "You haven't registered for any events yet. Explore the discovery tab to find something interesting!" }}
             </p>
-            <button v-if="activeTab === 'my-events'" @click="activeTab = 'events'" class="mt-6 px-6 py-2 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-100">
+            <button v-if="activeTab === 'my-events'" @click="activeTab = 'events'" class="mt-6 px-6 py-2 bg-gray-900 text-white rounded-xl font-semibold hover:bg-black transition-colors shadow-lg shadow-gray-200">
               Explore Events
             </button>
           </div>
@@ -108,7 +141,7 @@
 
               <!-- Content -->
               <div class="p-6 flex-1 flex flex-col">
-                <div class="flex items-center gap-2 text-indigo-600 text-xs font-bold uppercase tracking-wider mb-2">
+                <div class="flex items-center gap-2 text-gray-900 text-xs font-bold uppercase tracking-wider mb-2">
                   <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z"></path></svg>
                   {{ event.category || 'General' }}
                 </div>
@@ -154,7 +187,7 @@
                 <button 
                   v-else
                   @click="openConfirmModal(event)"
-                  class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold transition-all shadow-lg shadow-indigo-100 flex items-center justify-center gap-2"
+                  class="w-full py-3 bg-gray-900 hover:bg-black text-white rounded-xl font-bold transition-all shadow-lg shadow-gray-200 flex items-center justify-center gap-2"
                 >
                   Join Event
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
@@ -170,7 +203,7 @@
     <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm transition-opacity">
       <div class="bg-white rounded-3xl w-full max-w-md overflow-hidden shadow-2xl animate-in fade-in zoom-in duration-300">
         <div class="p-8">
-          <div :class="[isCancelling ? 'bg-rose-50 text-rose-600' : 'bg-indigo-50 text-indigo-600']" class="w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
+          <div :class="[isCancelling ? 'bg-rose-50 text-rose-600' : 'bg-gray-100 text-gray-900']" class="w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
              <svg v-if="!isCancelling" class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
              <svg v-else class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
           </div>
@@ -191,7 +224,7 @@
           <button 
             @click="processAction" 
             :disabled="isProcessing"
-            :class="[isCancelling ? 'bg-rose-600 hover:bg-rose-700 shadow-rose-100' : 'bg-indigo-600 hover:bg-indigo-700 shadow-indigo-100']"
+            :class="[isCancelling ? 'bg-rose-600 hover:bg-rose-700 shadow-rose-100' : 'bg-gray-900 hover:bg-black shadow-gray-200']"
             class="flex-1 py-4 text-white font-bold rounded-2xl transition-all shadow-xl disabled:opacity-50 flex items-center justify-center"
           >
             <span v-if="isProcessing" class="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"></span>
@@ -220,10 +253,40 @@ const selectedEvent = ref<any>(null)
 const isCancelling = ref(false)
 const isProcessing = ref(false)
 
+const notifications = ref<any[]>([])
+const showNotifications = ref(false)
+
+const fetchNotifications = async () => {
+  if (!authStore.user?.id) return
+  const { table } = useSupabase()
+  const { data, error } = await table('notifications')
+    .select('*')
+    .eq('user_id', authStore.user.id)
+    .order('created_at', { ascending: false })
+  
+  if (!error && data) {
+    notifications.value = data
+  }
+}
+
+const deleteNotification = async (id: number) => {
+  const { table } = useSupabase()
+  await table('notifications').delete().match({ id })
+  notifications.value = notifications.value.filter(n => n.id !== id)
+}
+
+const clearNotifications = async () => {
+  if (!authStore.user?.id) return
+  const { table } = useSupabase()
+  await table('notifications').delete().match({ user_id: authStore.user.id })
+  notifications.value = []
+}
+
 onMounted(async () => {
   await Promise.all([
     eventStore.fetchEvents(),
-    studentStore.fetchMyRegistrations()
+    studentStore.fetchMyRegistrations(),
+    fetchNotifications()
   ])
 })
 

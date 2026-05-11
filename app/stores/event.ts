@@ -63,7 +63,7 @@ export const useEventStore = defineStore('event', () => {
         .select(`
           *,
           media_assets ( file_url ),
-          event_registrations ( user_id )
+          event_registrations ( id, user_id, staus, profiles ( full_name ) )
         `)
         .order('created_at', { ascending: false })
       
@@ -117,7 +117,7 @@ export const useEventStore = defineStore('event', () => {
     }
   }
 
-  const updateRegistrationStatus = async (registrationId: number, status: 'approved' | 'rejected' | 'pending') => {
+  const updateRegistrationStatus = async (registrationId: number, status: 'approved' | 'rejected' | 'pending', userId: string, eventTitle: string) => {
     try {
       // @ts-ignore
       const { error } = await table('event_registrations')
@@ -125,6 +125,14 @@ export const useEventStore = defineStore('event', () => {
         .match({ id: registrationId })
       
       if (error) throw error
+
+      const message = `Your registration for "${eventTitle}" has been ${status}.`
+      const { error: notifError } = await table('notifications').insert({
+        user_id: userId,
+        message: message
+      })
+      if (notifError) console.error('Error creating notification:', notifError)
+
       await fetchEvents()
     } catch (err) {
       console.error('Error updating registration status:', err)

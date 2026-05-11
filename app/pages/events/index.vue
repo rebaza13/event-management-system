@@ -88,19 +88,28 @@
             </div>
             
             <!-- Actions -->
-            <div class="pt-4 border-t border-gray-100 mt-auto flex gap-2">
+            <div class="pt-4 border-t border-gray-100 mt-auto flex flex-col gap-2">
               <button 
-                @click="openModifyEvent(event)"
-                class="flex-1 inline-flex justify-center items-center py-2 px-4 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none transition-colors"
+                v-if="authStore.user?.role === 'admin' || authStore.user?.role === 'staff'"
+                @click="openRegistrationsModal(event)"
+                class="w-full inline-flex justify-center items-center py-2 px-4 border border-blue-200 text-sm font-medium rounded-md text-blue-700 bg-blue-50 hover:bg-blue-100 focus:outline-none transition-colors"
               >
-                Modify
+                View Registrations
               </button>
-              <button 
-                @click="openDeleteEventModal(event)"
-                class="flex-1 inline-flex justify-center items-center py-2 px-4 border border-red-200 text-sm font-medium rounded-md text-red-600 bg-white hover:bg-red-50 focus:outline-none transition-colors"
-              >
-                Delete
-              </button>
+              <div class="flex gap-2">
+                <button 
+                  @click="openModifyEvent(event)"
+                  class="flex-1 inline-flex justify-center items-center py-2 px-4 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none transition-colors"
+                >
+                  Modify
+                </button>
+                <button 
+                  @click="openDeleteEventModal(event)"
+                  class="flex-1 inline-flex justify-center items-center py-2 px-4 border border-red-200 text-sm font-medium rounded-md text-red-600 bg-white hover:bg-red-50 focus:outline-none transition-colors"
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -142,6 +151,60 @@
         </div>
       </div>
     </div>
+
+    <!-- Registrations Modal -->
+    <div v-if="isRegistrationsModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" @click="isRegistrationsModalOpen = false"></div>
+      
+      <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[80vh] flex flex-col overflow-hidden transform transition-all duration-300 border border-gray-200">
+        <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+          <h3 class="text-xl font-bold text-gray-900">Registrations: {{ selectedEventForRegistrations?.title }}</h3>
+          <button @click="isRegistrationsModalOpen = false" class="text-gray-400 hover:text-gray-600 transition-colors">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          </button>
+        </div>
+        
+        <div class="p-6 overflow-y-auto flex-1">
+          <div v-if="!selectedEventForRegistrations?.event_registrations?.length" class="text-center py-10 text-gray-500">
+            No registrations for this event yet.
+          </div>
+          <div v-else class="space-y-4">
+            <div v-for="reg in selectedEventForRegistrations.event_registrations" :key="reg.id" class="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-xl shadow-sm">
+              <div>
+                <p class="font-medium text-gray-900">{{ reg.profiles?.full_name || 'Unknown User' }}</p>
+                <div class="flex items-center mt-1">
+                  <span class="text-sm text-gray-500 mr-2">Status:</span>
+                  <span 
+                    :class="{
+                      'bg-yellow-100 text-yellow-800': reg.staus === 'pending' || !reg.staus,
+                      'bg-green-100 text-green-800': reg.staus === 'approved',
+                      'bg-red-100 text-red-800': reg.staus === 'rejected'
+                    }"
+                    class="px-2 py-0.5 rounded text-xs font-medium capitalize"
+                  >
+                    {{ reg.staus || 'pending' }}
+                  </span>
+                </div>
+              </div>
+              <div class="flex gap-2" v-if="reg.staus === 'pending' || !reg.staus">
+                <button 
+                  @click="handleUpdateStatus(reg.id, 'approved', reg.user_id)"
+                  class="px-3 py-1.5 bg-green-50 text-green-600 hover:bg-green-100 border border-green-200 rounded-md text-sm font-medium transition-colors"
+                >
+                  Approve
+                </button>
+                <button 
+                  @click="handleUpdateStatus(reg.id, 'rejected', reg.user_id)"
+                  class="px-3 py-1.5 bg-red-50 text-red-600 hover:bg-red-100 border border-red-200 rounded-md text-sm font-medium transition-colors"
+                >
+                  Reject
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -159,6 +222,9 @@ const authStore = useAuthStore()
 const isDeleteEventModalOpen = ref(false)
 const selectedEventToDelete = ref<any>(null)
 const isDeletingEvent = ref(false)
+
+const isRegistrationsModalOpen = ref(false)
+const selectedEventForRegistrations = ref<any>(null)
 
 onMounted(() => {
   eventStore.fetchEvents()
@@ -185,6 +251,30 @@ const openModifyEvent = (event: any) => {
 const openDeleteEventModal = (event: any) => {
   selectedEventToDelete.value = event
   isDeleteEventModalOpen.value = true
+}
+
+const openRegistrationsModal = (event: any) => {
+  selectedEventForRegistrations.value = event
+  isRegistrationsModalOpen.value = true
+}
+
+const handleUpdateStatus = async (registrationId: number, status: 'approved' | 'rejected', userId: string) => {
+  if (!selectedEventForRegistrations.value) return;
+  try {
+    await eventStore.updateRegistrationStatus(
+      registrationId, 
+      status, 
+      userId, 
+      selectedEventForRegistrations.value.title
+    );
+    // update local state so UI reflects changes immediately
+    const reg = selectedEventForRegistrations.value.event_registrations.find((r: any) => r.id === registrationId);
+    if (reg) {
+      reg.staus = status;
+    }
+  } catch (err) {
+    alert('Failed to update status');
+  }
 }
 
 const confirmDeleteEvent = async () => {

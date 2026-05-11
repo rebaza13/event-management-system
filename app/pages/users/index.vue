@@ -58,8 +58,8 @@
                 <td class="px-6 py-4 whitespace-nowrap">
                   <span 
                     :class="[
-                      user.role === 'admin' ? 'bg-purple-100 text-purple-800' : 
-                      user.role === 'staff' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800',
+                      user.role === 'admin' ? 'bg-black text-white' : 
+                      user.role === 'staff' ? 'bg-gray-600 text-white' : 'bg-gray-100 text-gray-800',
                       'px-2.5 py-0.5 rounded-full text-xs font-medium'
                     ]"
                   >
@@ -70,7 +70,7 @@
                   {{ formatDate(user.created_at) }}
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <button @click="openEditModal(user)" class="text-indigo-600 hover:text-indigo-900 mr-4">Edit Role</button>
+                  <button @click="openEditModal(user)" class="text-gray-600 hover:text-black mr-4">Edit Role</button>
                   <button @click="openDeleteModal(user)" class="text-red-600 hover:text-red-900">Delete</button>
                 </td>
               </tr>
@@ -158,7 +158,7 @@
           
           <div class="pt-4 flex gap-3">
             <button type="button" @click="isEditModalOpen = false" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">Cancel</button>
-            <button type="submit" :disabled="userStore.isLoading" class="flex-1 px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none disabled:opacity-50">
+            <button type="submit" :disabled="userStore.isLoading" class="flex-1 px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-black hover:bg-gray-800 focus:outline-none disabled:opacity-50">
               Save Changes
             </button>
           </div>
