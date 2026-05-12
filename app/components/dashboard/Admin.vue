@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-gray-50 flex flex-col md:flex-row font-sans text-gray-900">
     <!-- Sidebar (Hidden on mobile) -->
-    <aside class="w-64 bg-white border-r border-gray-200 flex-col hidden md:flex z-10 transition-all duration-300">
+    <aside v-if="authStore.user?.role === 'admin'" class="w-64 bg-white border-r border-gray-200 flex-col hidden md:flex z-10 transition-all duration-300">
       <div class="p-6 border-b border-gray-100 flex items-center gap-3">
         <div class="w-8 h-8 rounded bg-black flex items-center justify-center shadow-sm">
           <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
@@ -21,6 +21,10 @@
         <NuxtLink to="/users" class="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-lg transition-colors font-medium">
           <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
           Users
+        </NuxtLink>
+        <NuxtLink to="/analytics" class="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-lg transition-colors font-medium">
+          <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+          Analytics
         </NuxtLink>
       </nav>
       <div class="p-4 border-t border-gray-100 mt-auto">
@@ -78,12 +82,14 @@
              </NuxtLink>
 
              <!-- Manage Users -->
-             <NuxtLink to="/users" class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:border-gray-300 hover:shadow transition-all group flex flex-col items-center text-center">
+         <div >
+              <NuxtLink to="/users" class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:border-gray-300 hover:shadow transition-all group flex flex-col items-center text-center">
               <div class="w-10 h-10 bg-gray-50 text-gray-700 rounded-lg flex items-center justify-center mb-3 group-hover:bg-gray-100 transition-colors">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
               </div>
               <h4 class="text-sm font-semibold text-gray-900">Manage Users</h4>
              </NuxtLink>
+         </div>
 
              <!-- Profile -->
              <NuxtLink to="/profile" class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:border-gray-300 hover:shadow transition-all group flex flex-col items-center text-center">
@@ -104,23 +110,23 @@
                 </div>
               </div>
               <h3 class="text-lg font-bold text-gray-900 mb-2">Event Approvals</h3>
-              <p class="text-gray-500 text-sm mb-6 leading-relaxed">Review and approve incoming event submissions from organizers across the platform. Ensure quality and scheduling compliance.</p>
+
               <NuxtLink to="/events" class="inline-flex items-center text-sm font-medium text-black hover:text-gray-600 transition-colors">
                 Go to Events <span class="ml-1">&rarr;</span>
               </NuxtLink>
             </div>
 
-            <!-- User Management Box -->
+            <!-- Analytics Box -->
             <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm hover:shadow transition-all">
               <div class="flex justify-between items-start mb-4">
                 <div class="p-2.5 bg-gray-100 rounded-lg text-gray-700">
-                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                 </div>
               </div>
-              <h3 class="text-lg font-bold text-gray-900 mb-2">User Management</h3>
-              <p class="text-gray-500 text-sm mb-6 leading-relaxed">Modify user roles, review permissions, handle authentication rules, and manage all users' data and access globally.</p>
-              <NuxtLink to="/users" class="inline-flex items-center text-sm font-medium text-black hover:text-gray-600 transition-colors">
-                Manage Directory <span class="ml-1">&rarr;</span>
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Platform Analytics</h3>
+
+              <NuxtLink to="/analytics" class="inline-flex items-center text-sm font-medium text-black hover:text-gray-600 transition-colors">
+                View Analytics <span class="ml-1">&rarr;</span>
               </NuxtLink>
             </div>
           </div>

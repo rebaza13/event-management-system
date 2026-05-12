@@ -244,8 +244,7 @@ const formatDate = (dateStr: string) => {
 
 // Actions
 const openModifyEvent = (event: any) => {
-  // For now we will just alert, but you could easily pass this to your create/edit form
-  alert(`Modify logic goes here for: ${event.title}\nYou can wire this up to an edit page later!`)
+  navigateTo(`/events/edit/${event.id}`)
 }
 
 const openDeleteEventModal = (event: any) => {

@@ -186,6 +186,51 @@ export const useEventStore = defineStore('event', () => {
     }
   }
 
+  const updateEvent = async (eventId: number, eventData: Partial<EventCreate>, imageFile?: File | null): Promise<Event | null> => {
+    isLoading.value = true
+    try {
+      const { data: event, error: eventError } = await table('events')
+        .update(eventData)
+        .match({ id: eventId })
+        .select()
+        .single()
+
+      if (eventError) {
+        console.error('Error updating event:', eventError.message)
+        throw eventError
+      }
+
+      if (imageFile && event) {
+        const fileExt = imageFile.name.split('.').pop()
+        const fileName = `${event.id}-${Date.now()}.${fileExt}`
+        const filePath = `images/${fileName}`
+
+        const { error: uploadError, data: uploadData } = await client.storage
+          .from('event-assets')
+          .upload(filePath, imageFile)
+
+        if (!uploadError && uploadData) {
+          const { data: publicUrlData } = client.storage.from('event-assets').getPublicUrl(filePath)
+
+          await table('media_assets').delete().match({ event_id: eventId })
+          await table('media_assets').insert([{
+            event_id: event.id,
+            file_url: publicUrlData.publicUrl,
+            uploaded_by: user.value?.id || null
+          }])
+        } else {
+          console.error('Image upload failed:', uploadError?.message)
+        }
+      }
+
+      // Update local state without full refetch if possible, but for simplicity fetchEvents works too.
+      // We will let the component refetch if needed.
+      return event
+    } finally {
+      isLoading.value = false
+    }
+  }
+
   return {
     isLoading,
     events,
@@ -195,6 +240,7 @@ export const useEventStore = defineStore('event', () => {
     updateRegistrationStatus,
     cancelRegistration,
     cancelEvent,
-    deleteEvent
+    deleteEvent,
+    updateEvent
   }
 })

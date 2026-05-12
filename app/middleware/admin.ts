@@ -1,3 +1,9 @@
 export default defineNuxtRouteMiddleware((to, from) => {
-  // check if user role is admin
+  const authStore = useAuthStore()
+  if (authStore.user?.role !== 'admin') {
+
+    return navigateTo('/')
+  }
 })
+
+

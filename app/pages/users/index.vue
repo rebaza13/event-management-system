@@ -8,7 +8,7 @@
         Back to Dashboard
       </NuxtLink>
 
-      <div class="flex items-center justify-between mb-6">
+      <div v-if="authStore.user?.role === 'admin'"  class="flex items-center justify-between mb-6">
         <div>
           <h1 class="text-3xl font-bold text-gray-900">User Management</h1>
           <p class="text-gray-500 mt-1">Manage staff and student accounts.</p>
@@ -196,8 +196,8 @@ import { ref, onMounted } from 'vue'
 import { useUserStore } from '~/stores/user'
 import type { Profile } from '~/models'
 
-definePageMeta({ layout: false, middleware: ['auth'] })
-
+definePageMeta({ layout: false, middleware: ['admin'] })
+ const authStore = useAuthStore()
 const userStore = useUserStore()
 
 onMounted(() => {
