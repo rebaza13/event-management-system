@@ -5,17 +5,17 @@
       <div class="w-full max-w-md mx-auto lg:mx-0">
         <!-- Logo -->
         <div class="flex items-center gap-3 mb-10">
-          <div class="w-10 h-10 rounded-lg bg-black flex items-center justify-center shadow-sm">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+          <div class="w-10 h-10 rounded-xl bg-black flex items-center justify-center shadow-md">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18 18.246 18.477 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
           </div>
-          <span class="font-bold text-2xl tracking-tight">My<span class="text-gray-500 font-medium">Dashboard</span></span>
+          <span class="font-black text-3xl tracking-tighter">CEMS</span>
         </div>
 
         <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
           Welcome Back
         </h2>
-        <p class="mt-2 text-sm text-gray-500">
-          Sign in to access your event management dashboard.
+        <p class="mt-2 text-sm text-gray-500 font-medium">
+          Sign in to the College Event Management System.
         </p>
 
         <div class="mt-8">
@@ -63,36 +63,24 @@
       </div>
     </div>
 
-    <!-- Right Side: Dark Pattern Aesthetic -->
-    <div class="hidden lg:flex lg:flex-1 relative isolate overflow-hidden bg-black items-center justify-center">
-      <!-- Dark gradient wallpaper base -->
-      <div class="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-800"></div>
+    <!-- Right Side: Clean Premium Aesthetic -->
+    <div class="hidden lg:flex lg:flex-1 relative isolate overflow-hidden bg-slate-900 items-center justify-center">
+      <!-- Elegant gradient base -->
+      <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-black"></div>
       
-      <!-- Subtle dot pattern overlay -->
-      <div class="absolute inset-0 bg-[radial-gradient(#ffffff15_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_70%_70%_at_50%_50%,#000_60%,transparent_100%)]"></div>
-      
-      <!-- Glowing atmospheric elements -->
-      <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-gray-600 rounded-full mix-blend-screen filter blur-[150px] opacity-10 translate-x-1/3 -translate-y-1/3"></div>
-      <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gray-800 rounded-full mix-blend-screen filter blur-[120px] opacity-20 -translate-x-1/3 translate-y-1/3"></div>
+      <!-- Subtle soft glow accent -->
+      <div class="absolute top-0 right-0 -mr-20 -mt-20 w-[600px] h-[600px] bg-indigo-500/10 rounded-full blur-[100px] mix-blend-screen"></div>
+      <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[100px] mix-blend-screen"></div>
 
       <!-- Content -->
-      <div class="relative z-10 w-full max-w-lg px-8 flex flex-col items-start text-left">
-        <div class="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-8 backdrop-blur-md shadow-2xl">
-          <svg class="w-8 h-8 text-white opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+      <div class="relative z-10 w-full max-w-lg px-8 flex flex-col items-center text-center">
+        <div class="w-20 h-20 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center mb-8 backdrop-blur-xl shadow-2xl">
+          <svg class="w-10 h-10 text-white/90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
         </div>
-        <h3 class="text-white text-4xl font-extrabold tracking-tight mb-4">Elevate your<br/>event experience.</h3>
-        <p class="text-gray-400 text-lg leading-relaxed mb-10">
-          A seamless, simple, and powerful way to manage everything from registrations to schedules in one sleek interface.
+        <h3 class="text-white text-4xl font-extrabold tracking-tight mb-4">CEMS</h3>
+        <p class="text-slate-300 text-lg leading-relaxed max-w-md mx-auto font-medium">
+          The ultimate platform for modern campus life. Seamlessly organize, discover, and experience college events.
         </p>
-        
-        <div class="flex gap-4 items-center">
-          <div class="flex -space-x-3">
-             <div class="w-10 h-10 rounded-full border-2 border-black bg-gray-700"></div>
-             <div class="w-10 h-10 rounded-full border-2 border-black bg-gray-600"></div>
-             <div class="w-10 h-10 rounded-full border-2 border-black bg-gray-500"></div>
-          </div>
-          <p class="text-sm text-gray-500 font-medium">Join thousands of users.</p>
-        </div>
       </div>
     </div>
   </div>
