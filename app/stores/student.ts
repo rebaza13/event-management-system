@@ -64,6 +64,25 @@ export const useStudentStore = defineStore('student', () => {
     }
   }
 
+  const submitFeedback = async (eventId: number, message: string) => {
+    if (!authStore.user) return false
+    isLoading.value = true
+    try {
+      const { error } = await table('feedbacks').insert({
+        event_id: eventId,
+        user_id: authStore.user.id,
+        message
+      })
+      if (error) throw error
+      return true
+    } catch (err) {
+      console.error('Failed to submit feedback:', err)
+      return false
+    } finally {
+      isLoading.value = false
+    }
+  }
+
   return {
     myRegistrations,
     isLoading,
@@ -71,6 +90,7 @@ export const useStudentStore = defineStore('student', () => {
     isRegistered,
     getRegistration,
     register,
-    unregister
+    unregister,
+    submitFeedback
   }
 })

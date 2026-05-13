@@ -181,7 +181,15 @@
                         'Pending Approval' 
                       }}
                     </button>
-                    <p class="text-[10px] text-center text-slate-400 font-medium">Click to manage registration</p>
+                    <button
+                      v-if="studentStore.getRegistration(event.id)?.staus === 'approved'"
+                      @click="openFeedbackModal(event)"
+                      class="w-full py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-xl font-bold transition-all flex items-center justify-center gap-2 text-sm mt-1"
+                    >
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+                      Submit Feedback
+                    </button>
+                    <p class="text-[10px] text-center text-slate-400 font-medium mt-1">Click to manage registration</p>
                   </div>
                 </div>
                 <button 
@@ -233,6 +241,43 @@
         </div>
       </div>
     </div>
+
+    <!-- Feedback Modal -->
+    <div v-if="showFeedbackModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm transition-opacity">
+      <div class="bg-white rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl animate-in fade-in zoom-in duration-300 flex flex-col">
+        <div class="p-8 pb-4">
+          <div class="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center mb-6">
+             <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+          </div>
+          <h2 class="text-2xl font-bold text-slate-900 mb-3">Event Feedback</h2>
+          <p class="text-slate-500 leading-relaxed text-sm">
+            Please share your thoughts on "{{ selectedEvent?.title }}". Your feedback helps us improve future events!
+          </p>
+          <div class="mt-6">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Your Comments</label>
+            <textarea 
+              v-model="feedbackMessage"
+              rows="4"
+              class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-gray-900 focus:ring-1 focus:ring-gray-900 outline-none transition-all resize-none"
+              placeholder="What did you like? What could be better?"
+            ></textarea>
+          </div>
+        </div>
+        <div class="p-8 pt-4 flex gap-4 mt-auto">
+          <button @click="closeFeedbackModal" class="flex-1 py-3 text-slate-600 font-bold hover:bg-slate-100 rounded-2xl transition-colors">
+            Cancel
+          </button>
+          <button 
+            @click="submitFeedback" 
+            :disabled="isProcessing || !feedbackMessage.trim()"
+            class="flex-1 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-2xl transition-all shadow-xl disabled:opacity-50 flex items-center justify-center"
+          >
+            <span v-if="isProcessing" class="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"></span>
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -252,6 +297,9 @@ const showModal = ref(false)
 const selectedEvent = ref<any>(null)
 const isCancelling = ref(false)
 const isProcessing = ref(false)
+
+const showFeedbackModal = ref(false)
+const feedbackMessage = ref('')
 
 const notifications = ref<any[]>([])
 const showNotifications = ref(false)
@@ -321,6 +369,18 @@ const openCancelModal = (event: any) => {
   showModal.value = true
 }
 
+const openFeedbackModal = (event: any) => {
+  selectedEvent.value = event
+  feedbackMessage.value = ''
+  showFeedbackModal.value = true
+}
+
+const closeFeedbackModal = () => {
+  showFeedbackModal.value = false
+  selectedEvent.value = null
+  feedbackMessage.value = ''
+}
+
 const processAction = async () => {
   if (!selectedEvent.value) return
   isProcessing.value = true
@@ -335,6 +395,21 @@ const processAction = async () => {
     
     if (success) {
       showModal.value = false
+    }
+  } finally {
+    isProcessing.value = false
+  }
+}
+
+const submitFeedback = async () => {
+  if (!selectedEvent.value || !feedbackMessage.value.trim()) return
+  isProcessing.value = true
+  
+  try {
+    const success = await studentStore.submitFeedback(selectedEvent.value.id, feedbackMessage.value.trim())
+    if (success) {
+      closeFeedbackModal()
+      // Optional: Add a success notification here if you have a toast system
     }
   } finally {
     isProcessing.value = false

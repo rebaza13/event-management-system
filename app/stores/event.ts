@@ -231,6 +231,27 @@ export const useEventStore = defineStore('event', () => {
     }
   }
 
+  const fetchFeedbacks = async (eventId: number) => {
+    try {
+      const { data, error } = await table('feedbacks')
+        .select(`
+          id,
+          message,
+          created_at,
+          user_id,
+          profiles ( full_name )
+        `)
+        .eq('event_id', eventId)
+        .order('created_at', { ascending: false })
+      
+      if (error) throw error
+      return data || []
+    } catch (err) {
+      console.error('Error fetching feedbacks:', err)
+      return []
+    }
+  }
+
   return {
     isLoading,
     events,
@@ -241,6 +262,7 @@ export const useEventStore = defineStore('event', () => {
     cancelRegistration,
     cancelEvent,
     deleteEvent,
-    updateEvent
+    updateEvent,
+    fetchFeedbacks
   }
 })

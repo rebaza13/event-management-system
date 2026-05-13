@@ -96,6 +96,13 @@
               >
                 View Registrations
               </button>
+              <button 
+                v-if="authStore.user?.role === 'admin' || authStore.user?.role === 'staff'"
+                @click="openFeedbacksModal(event)"
+                class="w-full inline-flex justify-center items-center py-2 px-4 border border-indigo-200 text-sm font-medium rounded-md text-indigo-700 bg-indigo-50 hover:bg-indigo-100 focus:outline-none transition-colors"
+              >
+                View Feedbacks
+              </button>
               <div class="flex gap-2">
                 <button 
                   @click="openModifyEvent(event)"
@@ -205,6 +212,48 @@
         </div>
       </div>
     </div>
+
+    <!-- Feedbacks Modal -->
+    <div v-if="isFeedbacksModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" @click="isFeedbacksModalOpen = false"></div>
+      
+      <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[80vh] flex flex-col overflow-hidden transform transition-all duration-300 border border-gray-200">
+        <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+          <h3 class="text-xl font-bold text-gray-900">Feedbacks: {{ selectedEventForFeedbacks?.title }}</h3>
+          <button @click="isFeedbacksModalOpen = false" class="text-gray-400 hover:text-gray-600 transition-colors">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          </button>
+        </div>
+        
+        <div class="p-6 overflow-y-auto flex-1 bg-slate-50">
+          <div v-if="isFetchingFeedbacks" class="flex justify-center py-10">
+             <svg class="animate-spin h-8 w-8 text-indigo-500" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+          </div>
+          <div v-else-if="!feedbacks.length" class="text-center py-10">
+            <div class="w-16 h-16 bg-indigo-50 text-indigo-300 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+            </div>
+            <p class="text-gray-500">No feedbacks have been submitted yet.</p>
+          </div>
+          <div v-else class="space-y-4">
+            <div v-for="feedback in feedbacks" :key="feedback.id" class="bg-white p-5 border border-gray-200 rounded-xl shadow-sm">
+              <div class="flex items-center gap-3 mb-3">
+                 <div class="h-10 w-10 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-700 font-bold">
+                   {{ (feedback.profiles?.full_name || 'U').charAt(0).toUpperCase() }}
+                 </div>
+                 <div>
+                   <p class="font-bold text-gray-900">{{ feedback.profiles?.full_name || 'Unknown User' }}</p>
+                   <p class="text-xs text-gray-500">{{ formatDate(feedback.created_at) }}</p>
+                 </div>
+              </div>
+              <p class="text-gray-700 leading-relaxed bg-gray-50 p-4 rounded-lg text-sm border border-gray-100">
+                {{ feedback.message }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -225,6 +274,11 @@ const isDeletingEvent = ref(false)
 
 const isRegistrationsModalOpen = ref(false)
 const selectedEventForRegistrations = ref<any>(null)
+
+const isFeedbacksModalOpen = ref(false)
+const selectedEventForFeedbacks = ref<any>(null)
+const isFetchingFeedbacks = ref(false)
+const feedbacks = ref<any[]>([])
 
 onMounted(() => {
   eventStore.fetchEvents()
@@ -255,6 +309,17 @@ const openDeleteEventModal = (event: any) => {
 const openRegistrationsModal = (event: any) => {
   selectedEventForRegistrations.value = event
   isRegistrationsModalOpen.value = true
+}
+
+const openFeedbacksModal = async (event: any) => {
+  selectedEventForFeedbacks.value = event
+  isFeedbacksModalOpen.value = true
+  isFetchingFeedbacks.value = true
+  try {
+    feedbacks.value = await eventStore.fetchFeedbacks(event.id)
+  } finally {
+    isFetchingFeedbacks.value = false
+  }
 }
 
 const handleUpdateStatus = async (registrationId: number, status: 'approved' | 'rejected', userId: string) => {
