@@ -2,13 +2,15 @@
 export default defineNuxtRouteMiddleware((to) => {
   const user = useSupabaseUser() // Use the built-in composable, not Pinia
 
-  // If user doesn't exist and we aren't already going to the login page
-  if (!user.value && to.path !== '/auth/login') {
-    return navigateTo('/auth/login')
+  const publicRoutes = ['/auth/login', '/guest']
+
+  // If user doesn't exist and not going to a public route
+  if (!user.value && !publicRoutes.includes(to.path)) {
+    return navigateTo('/guest')
   }
 
-  // If user IS logged in and trying to go to login page, send them home
-  if (user.value && to.path === '/auth/login') {
+  // If user IS logged in and trying to go to login or guest page, send them home
+  if (user.value && publicRoutes.includes(to.path)) {
     return navigateTo('/')
   }
 })

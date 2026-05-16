@@ -98,7 +98,8 @@ const router = useRouter()
 const authStore = useAuthStore()
 
 definePageMeta({
-  layout: 'guest'
+  layout: 'guest',
+  middleware: ['auth']
 })
 
 function handleLogin() {
