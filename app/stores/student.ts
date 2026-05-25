@@ -66,17 +66,41 @@ export const useStudentStore = defineStore('student', () => {
 
   const submitFeedback = async (eventId: number, message: string) => {
     if (!authStore.user) return false
+
+    const registration = getRegistration(eventId)
+    // Check if registered and approved (noting the DB typo 'staus')
+    if (!registration || registration.staus !== 'approved') {
+      alert('You can only submit feedback for events you are approved to attend.')
+      return false
+    }
+
     isLoading.value = true
     try {
+      // Prevent duplicate feedback
+      const { count, error: countError } = await client
+        .from('feedbacks')
+        .select('*', { count: 'exact', head: true })
+        .eq('event_id', eventId)
+        .eq('user_id', authStore.user.id)
+      
+      if (countError) throw countError
+      
+      if (count && count > 0) {
+        alert('You have already submitted feedback for this event.')
+        return false
+      }
+
       const { error } = await table('feedbacks').insert({
         event_id: eventId,
         user_id: authStore.user.id,
         message
       })
       if (error) throw error
+      alert('Feedback submitted successfully!')
       return true
     } catch (err) {
       console.error('Failed to submit feedback:', err)
+      alert('Failed to submit feedback. Please try again.')
       return false
     } finally {
       isLoading.value = false

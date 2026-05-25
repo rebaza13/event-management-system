@@ -9,7 +9,8 @@ export const useGuestStore = defineStore('guest', () => {
   const fetchPublicEvents = async () => {
     isLoading.value = true
     try {
-      const { data, error } = await client
+      const { anonClient } = useSupabase()
+      const { data, error } = await anonClient
         .from('events')
         .select(`
           *,

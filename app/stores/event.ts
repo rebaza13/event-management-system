@@ -58,17 +58,38 @@ export const useEventStore = defineStore('event', () => {
   const fetchEvents = async () => {
     isLoading.value = true
     try {
+      const { anonClient } = useSupabase()
+
       const { data, error } = await client
         .from('events')
         .select(`
           *,
-          media_assets ( file_url ),
           event_registrations ( id, user_id, staus, profiles ( full_name ) )
         `)
         .order('created_at', { ascending: false })
       
       if (error) throw error
-      events.value = data || []
+      
+      let eventsData = data || []
+      
+      if (eventsData.length > 0) {
+        // Fetch media assets using anonClient through events to match exactly how guests do it
+        const { data: anonData } = await anonClient
+          .from('events')
+          .select('id, media_assets(file_url)')
+          .in('id', eventsData.map(e => e.id))
+          
+        if (anonData) {
+          eventsData = eventsData.map(event => ({
+            ...event,
+            media_assets: anonData.find(a => a.id === event.id)?.media_assets || []
+          }))
+        } else {
+          eventsData = eventsData.map(event => ({ ...event, media_assets: [] }))
+        }
+      }
+
+      events.value = eventsData
     } catch (err) {
       console.error('Error fetching events:', err)
     } finally {
