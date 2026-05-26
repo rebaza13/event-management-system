@@ -5,7 +5,7 @@ import type { Profile } from '~/models'
 export const useUserStore = defineStore('user', () => {
   const isLoading = ref<boolean>(false)
   const users = ref<Profile[]>([])
-  const { table, client } = useSupabase()
+  const { table, client, anonClient } = useSupabase()
 
   const fetchUsers = async () => {
     isLoading.value = true
@@ -24,7 +24,8 @@ export const useUserStore = defineStore('user', () => {
     isLoading.value = true
     try {
       // 1. Sign up the user in Supabase Auth
-      const { data, error } = await client.auth.signUp({
+      // Use anonClient so the admin's session is not overwritten
+      const { data, error } = await anonClient.auth.signUp({
         email,
         password,
         options: {
