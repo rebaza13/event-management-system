@@ -67,22 +67,22 @@ export const useEventStore = defineStore('event', () => {
           event_registrations ( id, user_id, staus, profiles ( full_name ) )
         `)
         .order('created_at', { ascending: false })
-      
+
       if (error) throw error
-      
+
       let eventsData = data || []
-      
+
       if (eventsData.length > 0) {
         // Fetch media assets using anonClient through events to match exactly how guests do it
         const { data: anonData } = await anonClient
           .from('events')
           .select('id, media_assets(file_url)')
           .in('id', eventsData.map(e => e.id))
-          
+
         if (anonData) {
           eventsData = eventsData.map(event => ({
             ...event,
-            media_assets: anonData.find(a => a.id === event.id)?.media_assets || []
+            media_assets: anonData.find((a: any) => a.id === event.id)?.media_assets || []
           }))
         } else {
           eventsData = eventsData.map(event => ({ ...event, media_assets: [] }))
@@ -108,7 +108,7 @@ export const useEventStore = defineStore('event', () => {
         user_id: authStore.user.id,
         staus: 'pending'
       })
-      
+
       // If profile is missing (foreign key error on profiles table), create it and retry
       if (error && error.code === '23503' && error.message.includes('profiles')) {
         const { error: profileError } = await table('profiles').insert({
@@ -116,9 +116,9 @@ export const useEventStore = defineStore('event', () => {
           full_name: authStore.user.full_name || authStore.user.email?.split('@')[0] || 'User',
           role: 'user'
         })
-        
+
         if (profileError) throw profileError
-        
+
         // Retry registration
         // @ts-ignore
         const { error: retryError } = await table('event_registrations').insert({
@@ -144,7 +144,7 @@ export const useEventStore = defineStore('event', () => {
       const { error } = await table('event_registrations')
         .update({ staus: status })
         .match({ id: registrationId })
-      
+
       if (error) throw error
 
       const message = `Your registration for "${eventTitle}" has been ${status}.`
@@ -196,7 +196,7 @@ export const useEventStore = defineStore('event', () => {
         .delete()
         .match({ id: eventId })
       if (error) throw error
-      
+
       // Update local state
       events.value = events.value.filter(e => e.id !== eventId)
     } catch (err) {
@@ -264,7 +264,7 @@ export const useEventStore = defineStore('event', () => {
         `)
         .eq('event_id', eventId)
         .order('created_at', { ascending: false })
-      
+
       if (error) throw error
       return data || []
     } catch (err) {

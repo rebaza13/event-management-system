@@ -44,7 +44,7 @@ export const useUserStore = defineStore('user', () => {
           full_name: fullName,
           role: role || 'student'
         }])
-        
+
         // Ignore duplicate key errors if the trigger already created it, but we can update the role
         if (profileError && profileError.code === '23505') {
           await table('profiles').update({ role }).match({ id: data.user.id })
@@ -52,7 +52,7 @@ export const useUserStore = defineStore('user', () => {
           console.error("Profile creation error:", profileError)
         }
       }
-      
+
       await fetchUsers()
       return true
     } catch (err) {
@@ -70,11 +70,12 @@ export const useUserStore = defineStore('user', () => {
         .update({ role: newRole })
         .match({ id: userId })
       if (error) throw error
-      
+
       // Update local state
       const index = users.value.findIndex(u => u.id === userId)
-      if (index !== -1) {
-        users.value[index].role = newRole
+      const user = users.value[index]
+      if (user) {
+        user.role = newRole
       }
     } catch (err) {
       console.error('Error updating role:', err)
@@ -93,7 +94,7 @@ export const useUserStore = defineStore('user', () => {
         .delete()
         .match({ id: userId })
       if (error) throw error
-      
+
       // Update local state
       users.value = users.value.filter(u => u.id !== userId)
     } catch (err) {

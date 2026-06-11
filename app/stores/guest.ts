@@ -19,7 +19,7 @@ export const useGuestStore = defineStore('guest', () => {
         // Filter out cancelled events if needed, for now just show all or just published
         .neq('status', 'cancelled')
         .order('created_at', { ascending: false })
-      
+
       if (error) throw error
       events.value = data || []
     } catch (err) {

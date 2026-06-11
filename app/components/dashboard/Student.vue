@@ -132,9 +132,9 @@
                 <!-- Badge -->
                 <div class="absolute top-4 left-4">
                   <span :class="[
-                    event.status === 'active' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-slate-100 text-slate-600 border-slate-200'
+                    event.status === 'cancelled' ? 'bg-rose-50 text-rose-700 border-rose-100' : 'bg-emerald-50 text-emerald-700 border-emerald-100'
                   ]" class="px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-lg border backdrop-blur-sm shadow-sm">
-                    {{ event.status }}
+                    {{ event.status === 'cancelled' ? 'cancelled' : 'active' }}
                   </span>
                 </div>
               </div>
